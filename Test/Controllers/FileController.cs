@@ -68,7 +68,7 @@ namespace Тестовое.Controllers
                 }
             }
 
-            return Ok(response);
+            return response.Count == 0 ? NotFound("Платформы не найдены") : Ok(response);
         }
     }
 }
