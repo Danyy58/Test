@@ -28,11 +28,11 @@ Task.Run(() =>
     {
         Process.Start(new ProcessStartInfo
         {
-            FileName = "http://localhost:5000/swagger",
+            FileName = "https://localhost:5000/swagger",
             UseShellExecute = true
         });
     }
     catch { }
 });
 
-app.Run("http://localhost:5000");
+app.Run("https://localhost:5000");
