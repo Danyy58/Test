@@ -10,6 +10,7 @@ namespace Тестовое.Controllers
     public class FileController : ControllerBase
     {
         private static Dictionary<string, string[]> platforms = [];
+        private static Dictionary<string, string[]> tmp = [];
 
         [HttpPost]
         public async Task<ActionResult<Dictionary<string, string[]>>> UploadFile(IFormFile file)
@@ -23,14 +24,14 @@ namespace Тестовое.Controllers
                 {
                     using (var reader = new StreamReader(stream))
                     {
-                        platforms.Clear();
+                        tmp.Clear();
                         string entry;
                         while ((entry = await reader.ReadLineAsync()) != null)
                         {
                             var str = entry.Split(':');
                             var key = str[0];
                             var values = str[1].Split(",", StringSplitOptions.RemoveEmptyEntries);
-                            platforms.Add(key, values);  
+                            tmp.Add(key, values);   
                         }
                     }
                 }
@@ -40,6 +41,11 @@ namespace Тестовое.Controllers
                 return BadRequest("Файл содержит некорректные данные");
             }
 
+            platforms.Clear();
+            foreach (var pair in tmp)
+            {
+                platforms.Add(pair.Key, pair.Value);
+            }
             return Ok(platforms);
         }
 
